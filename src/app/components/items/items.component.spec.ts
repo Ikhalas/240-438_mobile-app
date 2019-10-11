@@ -1,11 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ItemsComponent } from './items.component';
-import { ItemComponent } from '../item/item.component';
-import { TimeAgoPipe } from '../time-ago/time-ago.pipe';
-import { TestUtils } from '../../../testing/test-utils';
-import { By } from '@angular/platform-browser';
 
+import { ItemsComponent } from './items.component';
+import { TestUtils } from 'src/testing/test-utils';
+import { ItemComponent } from '../item/item.component';
+import { TimeAgoPipe } from '../time-ago.pipe';
+import { By } from '@angular/platform-browser';
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;

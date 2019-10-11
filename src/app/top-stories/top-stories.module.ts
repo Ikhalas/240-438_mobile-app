@@ -5,8 +5,9 @@ import { TopStoriesComponent } from './top-stories.component';
 import { IonicModule } from '@ionic/angular';
 import { ItemComponent } from '../components/item/item.component';
 import { ItemsComponent } from '../components/items/items.component';
-import { TimeAgoPipe } from '../components/time-ago/time-ago.pipe';
-import { TopStoriesRoutingModule } from './top-stories-routing.module';
+import { TimeAgoPipe } from '../components/time-ago.pipe';
+import { RouterModule } from '@angular/router';
+import { TopStoriesRoutingModule } from './top-stories-routing-modules';
 
 
 @NgModule({

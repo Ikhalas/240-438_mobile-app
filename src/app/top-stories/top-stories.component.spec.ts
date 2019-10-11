@@ -1,27 +1,56 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, async } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { TopStoriesComponent } from './top-stories.component';
+import { TestUtils } from 'src/testing/test-utils';
+import { ItemsComponent } from '../components/items/items.component';
+import { ItemComponent } from '../components/item/item.component';
+import { TimeAgoPipe } from '../components/time-ago.pipe';
+import { ItemService } from '../services/item/item.service';
+import { ItemServiceMock } from 'src/app/services/item/item.service.mock';
 
-describe('TopStoriesComponent', () => {
-  let component: TopStoriesComponent;
-  let fixture: ComponentFixture<TopStoriesComponent>;
+let fixture: ComponentFixture<TopStoriesComponent> = null;
+let component: any = null;
+describe('top stories page', () => {
+  beforeEach(async(() => TestUtils.beforeEachCompiler(
+    [TopStoriesComponent, ItemsComponent, ItemComponent,
+      TimeAgoPipe],
+    [{ provide: ItemService, useClass: ItemServiceMock }]
+  ).then(compiled => {
+    fixture = compiled.fixture;
+    component = compiled.instance;
+  })));
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TopStoriesComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-    .compileComponents();
+  it('should show more items when scrolling down', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.next();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        let debugElements = fixture.debugElement.queryAll(By.
+          css('h2'));
+        expect(debugElements.length).toBe(20);
+        expect(debugElements[10].nativeElement.textContent).
+          toContain('Item 11');
+      });
+    });
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TopStoriesComponent);
-    component = fixture.componentInstance;
+  it('should display a list of 10 items when refresh', async(() => {
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.refresh({target: {complete: ()=>{} }});
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        let debugElements = fixture.debugElement.queryAll(By.
+          css('h2'));
+        expect(debugElements.length).toBe(10);
+        expect(debugElements[0].nativeElement.textContent).
+          toContain('Item 1');
+        expect(debugElements[1].nativeElement.textContent).
+          toContain('Item 2');
+      });
+    });
+  }));
 });

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Items } from '../../models/items';
-import { Item } from '../../models/item';
+import { Items } from 'src/app/models/items';
+import { Item } from 'src/app/models/item';
 
 @Component({
   selector: 'app-items',
@@ -8,8 +8,9 @@ import { Item } from '../../models/item';
   styleUrls: ['./items.component.scss'],
 })
 export class ItemsComponent implements OnInit {
-  @Input() items: Items;
 
+  @Input() items: Item[]
+  
   constructor() { }
 
   ngOnInit() {}
