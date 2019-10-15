@@ -1,7 +1,7 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { Params, RouterStateSnapshot } from '@angular/router';
-import * as fromRouter from '@ngrx/router-store';
 import { RouterStateSerializer } from '@ngrx/router-store';
+import * as fromRouter from '@ngrx/router-store';
 import * as fromItems from './items';
 
 export interface RouterStateUrl {
