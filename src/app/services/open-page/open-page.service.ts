@@ -9,8 +9,8 @@ export class OpenPageService {
     private loading: HTMLIonAlertElement;
     private subscription: Subscription;
     constructor(private inAppBrowser: InAppBrowser,
-        private alertCtrl: AlertController,
-        private toastCtrl: ToastController) { }
+                        private alertCtrl: AlertController,
+                        private toastCtrl: ToastController) { }
     open(url: string) {
         this.cancel().then(() => {
             this.browser = this.inAppBrowser.create(url, '_blank',

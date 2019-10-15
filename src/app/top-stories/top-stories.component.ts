@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { OpenPageService } from '../services/open-page/open-page.service';
 import { from, Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Items } from '../models/items';
@@ -8,6 +7,7 @@ import * as fromItems from '../reducers/items';
 import * as fromTopStories from './reducers';
 import * as topStoriesActions from './actions/top-stories';
 import { concatMap, filter } from 'rxjs/operators';
+import { OpenPageService } from '../services/open-page/open-page.service';
 
 @Component({
   selector: 'app-top-stories',
@@ -26,7 +26,9 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
   private loading: HTMLIonLoadingElement;
   private subscriptions: Subscription[];
 
-  constructor(private store: Store<fromTopStories.State>,
+  constructor(
+    private openPageService: OpenPageService,
+    private store: Store<fromTopStories.State>,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController) {
     this.items$ = store.pipe(select(fromTopStories.getDisplayItems));
@@ -61,14 +63,14 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
     this.infiniteScrollComponent = event.target;
     this.doLoad(false);
   }
+
+  openUrl(url) {
+    this.openPageService.open(url);
+    }
   
   refresh(event) {
     this.refresherComponent = event.target;
     this.doLoad(true);
-  }
-
-  openUrl(url) {
-    this.openPageService.open(url);
   }
 
   doLoad(refresh: boolean) {
