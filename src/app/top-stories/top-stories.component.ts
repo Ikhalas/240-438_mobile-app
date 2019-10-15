@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { OpenPageService } from '../services/open-page/open-page.service';
 import { from, Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Items } from '../models/items';
@@ -64,6 +65,10 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
   refresh(event) {
     this.refresherComponent = event.target;
     this.doLoad(true);
+  }
+
+  openUrl(url) {
+    this.openPageService.open(url);
   }
 
   doLoad(refresh: boolean) {
