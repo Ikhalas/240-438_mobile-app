@@ -22,20 +22,33 @@ import { ServicesModule } from './services/services.module';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.app_db),
     AngularFireDatabaseModule,
+    ServicesModule,
     TopStoriesModule,
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx HNC DevTools',
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([ItemsEffects]),
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HACKER_NEWS_DB,
+      useFactory: (platformId: Object, zone: NgZone) =>
+        new AngularFireDatabase(environment.hackernews_db, 'HackerNews', null, platformId, zone),
+      deps: [PLATFORM_ID, NgZone]
+    },
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

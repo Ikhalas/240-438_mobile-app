@@ -19,38 +19,17 @@ describe('top stories page', () => {
     fixture = compiled.fixture;
     component = compiled.instance;
   })));
-
-  it('should show more items when scrolling down', async(() => {
+  it('should display a list of 10 items', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      component.next();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        let debugElements = fixture.debugElement.queryAll(By.
-          css('h2'));
-        expect(debugElements.length).toBe(20);
-        expect(debugElements[10].nativeElement.textContent).
-          toContain('Item 11');
-      });
-    });
-  }));
-
-  it('should display a list of 10 items when refresh', async(() => {
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.refresh({target: {complete: ()=>{} }});
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        let debugElements = fixture.debugElement.queryAll(By.
-          css('h2'));
-        expect(debugElements.length).toBe(10);
-        expect(debugElements[0].nativeElement.textContent).
-          toContain('Item 1');
-        expect(debugElements[1].nativeElement.textContent).
-          toContain('Item 2');
-      });
+      let debugElements = fixture.debugElement.queryAll(By.
+        css('h2'));
+      expect(debugElements.length).toBe(10);
+      expect(debugElements[0].nativeElement.textContent).
+        toContain('Item 1');
+      expect(debugElements[1].nativeElement.textContent).
+        toContain('Item 2');
     });
   }));
 });
