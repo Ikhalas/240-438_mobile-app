@@ -65,16 +65,17 @@ export class AuthEffects {
       )
     )
   );
-  // @Effect()
-  // loginWithProvider$ = this.action$.pipe(
-  //   ofType(AuthActionTypes.LoginWithProvider),
-  //   map((action: LoginWithProvider) => action.payload),
-  //   mergeMap((provider: LoginProvider) =>
-  //     from(this.authService.logInWithProvider(provider))
-  //       .pipe(
-  //         mergeMap(user => of<Action>(new LoginSuccess(user), new favoritesActions.Load())),
-  //         catchError(error => of(new LoginFailure(error)))
-  //       )
-  //   )
-  // );
+  @Effect()
+  loginWithProvider$ = this.action$.pipe(
+    ofType(AuthActionTypes.LoginWithProvider),
+    map((action: LoginWithProvider) => action.payload),
+    mergeMap((provider: LoginProvider) =>
+      from(this.authService.logInWithProvider(provider))
+        .pipe(
+          mergeMap(user => of<Action>(new LoginSuccess(user), new favoritesActions.Load())),
+          catchError(error => of(new LoginFailure(error)))
+        )
+    )
+  );
+ 
 }
